@@ -1,35 +1,30 @@
 export const getInvertedCircle = function ({ x, y, r }, inversionCircle) {
+  const isTouchingCenter = Math.abs(distance({ x, y }, inversionCircle) - r) < 0.00001;
   const a = Math.atan2(y - inversionCircle.y, x - inversionCircle.x);
+  const cosAr = Math.cos(a) * r;
+  const sinAr = Math.sin(a) * r;
+  const pointsOnCircle = [
+    { x: x - cosAr, y: y - sinAr },
+    { x: x + cosAr, y: y + sinAr },
+    { x: x + r, y: y }
+  ];
+  const invertedPoints = pointsOnCircle.map(invert(inversionCircle));
 
-  // Invert a point on the circle
-  const rp1 = invert({
-    x: x - Math.cos(a) * r,
-    y: y - Math.sin(a) * r
-  }, inversionCircle);
+  if (isTouchingCenter) {
+    return createLine(invertedPoints[1], invertedPoints[2]);
+  }
 
-  // Invert the opposite point on the circle
-  const rp2 = invert({
-    x: x + Math.cos(a) * r,
-    y: y + Math.sin(a) * r
-  }, inversionCircle);
-
-  // Invert a third point on the circle
-  const rp3 = invert({
-    x: x + r,
-    y: y
-  }, inversionCircle);
-
-  // Find the center of the circle given by those 3 points
-  // you can find this formula online
-  const center_inverted = findCenter(rp1, rp2, rp3);
+  const center_inverted = findCenter(...invertedPoints);
 
   // Get the distance from the center to one of the points
   // that's the new radius.
-  const dx = center_inverted.x - rp1.x;
-  const dy = center_inverted.y - rp1.y;
+  const aPoint = invertedPoints[0];
+  const dx = center_inverted.x - aPoint.x;
+  const dy = center_inverted.y - aPoint.y;
   const r_inv = Math.pow(dx * dx + dy * dy, 1 / 2);
 
   return {
+    type: 'circle',
     x: center_inverted.x,
     y: center_inverted.y,
     r: r_inv
@@ -47,20 +42,31 @@ const findCenter = (p1, p2, p3) => {
 // The squared norm of a point
 const norm2 = p => p.x * p.x + p.y * p.y;
 
-const invert = (point, inversionCircle) => {
+const invert = inversionCircle => point => {
   const { x, y, r } = inversionCircle;
-  // Translate everything so that the circle we are inverting over has it's center at the origin
-  const inv_point = {
-    x: point.x - x,
-    y: point.y - y
-  };
+  // Translate everything so that the circle we are inverting over has its center at the origin
+  const inv_point = { x: point.x - x, y: point.y - y };
 
-  const constant = r * r * 1.0 / norm2(inv_point);
+  const norm = norm2(inv_point);
+  if (norm === 0) {
+    return null;
+  }
 
-  // Invert the point and translate it back to it's original place
+  const constant = r * r * 1.0 / norm;
+
+  // Invert the point and translate it back to its original place
   return {
     x: inv_point.x * constant + x,
     y: inv_point.y * constant + y
   };
 };
 
+const distance = ({ x: x1, y: y1 }, { x: x2, y: y2 }) => Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
+
+const createLine = ({ x: x1, y: y1 }, { x: x2, y: y2 }) => {
+  // y = kx + m
+  const k = (y2 - y1) / (x2 - x1);
+  const m = y1 - k * x1;
+  const getY = x => k * x + m;
+  return { type: 'line', x1: 0, y1: getY(0), x2: 100, y2: getY(100) };
+}
