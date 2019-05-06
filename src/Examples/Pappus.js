@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Range } from '../Gui/Range';
-import { Color, interpolateColor } from '../color';
 import { Drawer } from '../Gui/Drawer';
+import { Color, interpolateColor } from '../color';
 
 export function Pappus() {
   const [r, setR] = useState(70);
@@ -36,15 +36,15 @@ function Circles({ r, number }) {
       }))
   ];
   return (
-    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg">
       {
         circles.map(({ x, y, r, fill }, i) =>
           <circle
             key={i}
             vectorEffect="non-scaling-stroke"
-            cx={100 * x}
-            cy={100 * y}
-            r={100 * r}
+            cx={x}
+            cy={y}
+            r={r}
             fill={fill}
             stroke="#000"
           />

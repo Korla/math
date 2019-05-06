@@ -1,0 +1,22 @@
+.drawer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs {
+  border-bottom: 1px solid black;
+  display: flex;
+}
+
+.tabs > * {
+  cursor: pointer;
+  padding: 5px;
+  border-right: 1px solid black;
+}
+
+.tabContent {
+  position: relative;
+}
