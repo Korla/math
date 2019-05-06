@@ -4,7 +4,10 @@ import { Drawer } from '../Gui/Drawer';
 import { getInvertedCircle } from './getInvertedCircle';
 
 const createCircle = ({ x, y, r, fill }, i) => (
-  <circle key={i} vectorEffect='non-scaling-stroke' cx={x} cy={y} r={r} fill={fill} stroke='#000' />
+  <React.Fragment key={i}>
+    <circle vectorEffect='non-scaling-stroke' cx={x} cy={y} r={r} fill={fill} stroke='#000' />
+    <circle vectorEffect='non-scaling-stroke' cx={x} cy={y} r={0.003} fill={fill} stroke='#000' />
+  </React.Fragment>
 );
 
 const createLine = ({ x1, y1, x2, y2 }, i) => (
@@ -13,12 +16,11 @@ const createLine = ({ x1, y1, x2, y2 }, i) => (
 
 export function CircleInversion() {
   const [inversionCircle, setInversionCircle] = useState({ x: 0.5, y: 0.5, r: 0.2, fill: 'none' });
-  const [circle, setCircle] = useState({ x: 0.7, y: 0.5, r: 0.08, fill: 'none' });
+  const [circle, setCircle] = useState({ x: 0.75, y: 0.75, r: 0.08, fill: 'none' });
   const circles = [inversionCircle, circle];
   const lines = [];
 
   const result = getInvertedCircle(circle, inversionCircle);
-  console.log(result);
   if (result.type === 'circle') {
     circles.push({ ...result, fill: 'none' });
   } else {

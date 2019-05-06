@@ -1,5 +1,7 @@
+const areFloatsEqual = (v1, v2) => Math.abs(v1 - v2) < 0.00001;
+
 export const getInvertedCircle = function (circle, inversionCircle) {
-  const isTouchingCenter = Math.abs(distance(circle, inversionCircle) - circle.r) < 0.00001;
+  const isTouchingCenter = areFloatsEqual(distance(circle, inversionCircle), circle.r);
 
   // First point is a radius away in one direction
   // Next two points are 120 degrees around the circumference
@@ -13,7 +15,7 @@ export const getInvertedCircle = function (circle, inversionCircle) {
   const invertedPoints = pointsOnCircle.map(invert(inversionCircle));
 
   if (isTouchingCenter) {
-    return createLine(invertedPoints[1], invertedPoints[2]);
+    return createLine(invertedPoints[0], invertedPoints[1]);
   }
 
   const center_inverted = findCenter(...invertedPoints);
@@ -66,9 +68,14 @@ const invert = inversionCircle => point => {
 const distance = ({ x: x1, y: y1 }, { x: x2, y: y2 }) => Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
 
 const createLine = ({ x: x1, y: y1 }, { x: x2, y: y2 }) => {
+  console.log({ x: x1, y: y1 }, { x: x2, y: y2 })
   // y = kx + m
-  const k = (y2 - y1) / (x2 - x1);
-  const m = y1 - k * x1;
-  const getY = x => k * x + m;
-  return { type: 'line', x1: 0, y1: getY(0), x2: 100, y2: getY(100) };
+  if (areFloatsEqual(x1, x2)) {
+    return { type: 'line', x1: x1, y1: 0, x2: x1, y2: 100 };
+  } else {
+    const k = (y2 - y1) / (x2 - x1);
+    const m = y1 - k * x1;
+    const getY = x => k * x + m;
+    return { type: 'line', x1: 0, y1: getY(0), x2: 100, y2: getY(100) };
+  }
 }
