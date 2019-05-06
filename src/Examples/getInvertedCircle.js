@@ -15,7 +15,7 @@ export const getInvertedCircle = function (circle, inversionCircle) {
   const invertedPoints = pointsOnCircle.map(invert(inversionCircle));
 
   if (isTouchingCenter) {
-    return createLine(invertedPoints[0], invertedPoints[1]);
+    return createLine(invertedPoints[1], invertedPoints[2]);
   }
 
   const center_inverted = findCenter(...invertedPoints);
