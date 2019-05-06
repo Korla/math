@@ -1,13 +1,15 @@
-export const getInvertedCircle = function ({ x, y, r }, inversionCircle) {
-  const isTouchingCenter = Math.abs(distance({ x, y }, inversionCircle) - r) < 0.00001;
-  const a = Math.atan2(y - inversionCircle.y, x - inversionCircle.x);
-  const cosAr = Math.cos(a) * r;
-  const sinAr = Math.sin(a) * r;
+export const getInvertedCircle = function (circle, inversionCircle) {
+  const isTouchingCenter = Math.abs(distance(circle, inversionCircle) - circle.r) < 0.00001;
+
+  // First point is a radius away in one direction
+  // Next two points are 120 degrees around the circumference
+  const getPointOnCircumference = ({ x, y, r }, angle) => ({ x: r * Math.cos(angle) + x, y: r * Math.sin(angle) + y });
   const pointsOnCircle = [
-    { x: x - cosAr, y: y - sinAr },
-    { x: x + cosAr, y: y + sinAr },
-    { x: x + r, y: y }
+    getPointOnCircumference(circle, 0),
+    getPointOnCircumference(circle, 120),
+    getPointOnCircumference(circle, 240),
   ];
+
   const invertedPoints = pointsOnCircle.map(invert(inversionCircle));
 
   if (isTouchingCenter) {

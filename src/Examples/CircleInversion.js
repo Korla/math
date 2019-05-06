@@ -13,7 +13,7 @@ const createLine = ({ x1, y1, x2, y2 }, i) => (
 
 export function CircleInversion() {
   const [inversionCircle, setInversionCircle] = useState({ x: 0.5, y: 0.5, r: 0.2, fill: 'none' });
-  const [circle, setCircle] = useState({ x: 0.5, y: 0.57, r: 0.08, fill: 'none' });
+  const [circle, setCircle] = useState({ x: 0.7, y: 0.5, r: 0.08, fill: 'none' });
   const circles = [inversionCircle, circle];
   const lines = [];
 
