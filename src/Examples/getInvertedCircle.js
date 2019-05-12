@@ -68,7 +68,6 @@ const invert = inversionCircle => point => {
 const distance = ({ x: x1, y: y1 }, { x: x2, y: y2 }) => Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
 
 const createLine = ({ x: x1, y: y1 }, { x: x2, y: y2 }) => {
-  console.log({ x: x1, y: y1 }, { x: x2, y: y2 })
   // y = kx + m
   if (areFloatsEqual(x1, x2)) {
     return { type: 'line', x1: x1, y1: 0, x2: x1, y2: 100 };

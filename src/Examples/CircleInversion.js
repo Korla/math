@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { Range } from '../Gui/Range';
-import { Drawer } from '../Gui/Drawer';
 import { getInvertedCircle } from './getInvertedCircle';
 
 const createCircle = ({ x, y, r, fill, stroke, centreStroke }, i) => (
@@ -27,15 +25,28 @@ export function CircleInversion() {
   const elements = [inversionCircle, circle, inverted]
     .map((element, i) => elementTypes[element.type](element, i));
 
+  const onMouseMove = ({ target, clientX, clientY }) => {
+    const { clientWidth, clientHeight } = target;
+    const { left, top } = target.getBoundingClientRect();
+    const x = (clientX - left) / clientWidth;
+    const y = (clientY - top) / clientHeight;
+    setCircle({ ...circle, x, y });
+  }
+
+  const onWheel = ({ deltaY }) => {
+    const delta = deltaY < 0 ? 0.001 : -0.001;
+    const r = Math.max(0.01, circle.r + delta);
+    setCircle({ ...circle, r });
+  };
+
   return (
     <div>
-      <svg viewBox='0 0 1 1' xmlns='http://www.w3.org/2000/svg' onMouseMove={ev => console.log(ev.screenX, ev.screenY)}>
+      <svg viewBox='0 0 1 1'
+        xmlns='http://www.w3.org/2000/svg'
+        onMouseMove={onMouseMove}
+        onWheel={onWheel}>
         {elements}
       </svg>
-      <Drawer>
-        <Range label="Circle x" value={circle.x} onChange={x => setCircle({ ...circle, x: x / 100 })} min="1" max="100" />
-        <Range label="Circle y" value={circle.y} onChange={y => setCircle({ ...circle, y: y / 100 })} min="1" max="100" />
-      </Drawer>
     </div>
   )
 }
