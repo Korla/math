@@ -1,4 +1,4 @@
-const areFloatsEqual = (v1, v2) => Math.abs(v1 - v2) < 0.00001;
+const areFloatsEqual = (v1, v2) => Math.abs(v1 - v2) < 0.001;
 
 export const getInvertedCircle = function (circle, inversionCircle) {
   const isTouchingCenter = areFloatsEqual(distance(circle, inversionCircle), circle.r);

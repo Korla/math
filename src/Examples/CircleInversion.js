@@ -3,7 +3,7 @@ import { getInvertedCircle } from './getInvertedCircle';
 
 const createCircle = ({ x, y, r, fill, stroke, centreStroke }, i) => (
   <React.Fragment key={i}>
-    <circle vectorEffect='non-scaling-stroke' cx={x} cy={y} r={r} fill={fill || 'none'} stroke={stroke || '#000'} />
+    <circle vectorEffect='non-scaling-stroke' cx={x} cy={y} r={r} fill={fill} fillOpacity={Math.min(r, 0.8)} stroke={stroke || '#000'} />
     <circle vectorEffect='non-scaling-stroke' cx={x} cy={y} r={0.003} fill='none' stroke={centreStroke || '#000'} />
   </React.Fragment>
 );
@@ -13,10 +13,10 @@ const createLine = ({ x1, y1, x2, y2 }, i) => (
 );
 
 export function CircleInversion() {
-  const [circle, setCircle] = useState({ x: 0.75, y: 0.75, r: 0.08, type: 'circle' });
-  const inversionCircle = { x: 0.5, y: 0.5, r: 0.2, type: 'circle' };
+  const [circle, setCircle] = useState({ x: 0.75, y: 0.75, r: 0.08, fill: '#0033aa', type: 'circle' });
+  const inversionCircle = { x: 0.5, y: 0.5, r: 0.2, fill: 'none', type: 'circle' };
 
-  const inverted = getInvertedCircle(circle, inversionCircle);
+  const inverted = { ...getInvertedCircle(circle, inversionCircle), fill: '#0033aa' };
 
   const elementTypes = {
     circle: (element, i) => createCircle(element, i),
