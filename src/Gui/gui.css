@@ -24,3 +24,7 @@
 circle {
   pointer-events: none;
 }
+
+svg {
+  max-width: 700px;
+}
