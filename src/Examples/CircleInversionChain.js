@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { Range } from '../Gui/Range';
-import { Drawer } from '../Gui/Drawer';
+import React from 'react';
 import { getInvertedCircle } from './getInvertedCircle';
+import { useCircle } from './useCircle';
 
 const createCircle = ({ x, y, r, fill, stroke, centreStroke }, i) => (
   <React.Fragment key={i}>
@@ -15,12 +14,13 @@ const createLine = ({ x1, y1, x2, y2 }, i) => (
 );
 
 export function CircleInversionChain() {
-  const [circle, setCircle] = useState({ x: 0.75, y: 0.75, r: 0.08, fill: 'none', stroke: '#000', type: 'circle' });
+  const { circle, onMouseMove, onWheel } = useCircle({ x: 0.75, y: 0.75, r: 0.08, fill: 'none', stroke: '#000', type: 'circle' });
   const inversionCircle = { x: 0.5, y: 0.5, r: 0.2, type: 'circle' };
 
   const range = n => [...Array(n).keys()];
-  const inversions = range(300)
-    .map(x => getInvertedCircle({ ...circle, x: x / 300 }, inversionCircle))
+  const count = 100;
+  const inversions = range(count)
+    .map(x => getInvertedCircle({ ...circle, x: x / count }, inversionCircle))
     .map(circle => ({ ...circle, fill: '#0033aa11', stroke: 'none', centreStroke: 'none' }))
 
   const elementTypes = {
@@ -32,13 +32,12 @@ export function CircleInversionChain() {
 
   return (
     <div>
-      <svg viewBox='0 0 1 1' xmlns='http://www.w3.org/2000/svg'>
+      <svg viewBox='0 0 1 1'
+        xmlns='http://www.w3.org/2000/svg'
+        onMouseMove={onMouseMove}
+        onWheel={onWheel}>
         {elements}
       </svg>
-      <Drawer>
-        <Range label="Circle y" value={circle.y} onChange={y => setCircle({ ...circle, y: y / 100 })} min="1" max="100" />
-        <Range label="Circle r" value={circle.r} onChange={r => setCircle({ ...circle, r: r / 100 })} min="1" max="100" />
-      </Drawer>
     </div>
   )
 }

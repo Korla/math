@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { getInvertedCircle } from './getInvertedCircle';
+import { useCircle } from './useCircle';
 
 const createCircle = ({ x, y, r, fill, stroke, centreStroke }, i) => (
   <React.Fragment key={i}>
@@ -13,7 +14,7 @@ const createLine = ({ x1, y1, x2, y2 }, i) => (
 );
 
 export function CircleInversion() {
-  const [circle, setCircle] = useState({ x: 0.75, y: 0.75, r: 0.08, fill: '#0033aa', type: 'circle' });
+  const { circle, onMouseMove, onWheel } = useCircle({ x: 0.75, y: 0.75, r: 0.08, fill: '#0033aa', type: 'circle' });
   const inversionCircle = { x: 0.5, y: 0.5, r: 0.2, fill: 'none', type: 'circle' };
 
   const inverted = { ...getInvertedCircle(circle, inversionCircle), fill: '#0033aa' };
@@ -24,20 +25,6 @@ export function CircleInversion() {
   }
   const elements = [inversionCircle, circle, inverted]
     .map((element, i) => elementTypes[element.type](element, i));
-
-  const onMouseMove = ({ target, clientX, clientY }) => {
-    const { clientWidth, clientHeight } = target;
-    const { left, top } = target.getBoundingClientRect();
-    const x = (clientX - left) / clientWidth;
-    const y = (clientY - top) / clientHeight;
-    setCircle({ ...circle, x, y });
-  }
-
-  const onWheel = ({ deltaY }) => {
-    const delta = deltaY < 0 ? 0.001 : -0.001;
-    const r = Math.max(0.01, circle.r + delta);
-    setCircle({ ...circle, r });
-  };
 
   return (
     <div className="circleInversion">
