@@ -1,7 +1,6 @@
 .drawer {
   position: absolute;
   top: 0;
-  bottom: 0;
   display: flex;
   flex-direction: column;
 }
@@ -9,12 +8,24 @@
 .tabs {
   border-bottom: 1px solid black;
   display: flex;
+  height: 5vh;
 }
 
 .tabs > * {
   cursor: pointer;
-  padding: 5px;
+  padding: 0 10px;
   border-right: 1px solid black;
+  display: flex;
+  align-items: center;
+}
+
+.tabs > *:hover {
+  text-decoration: underline;
+}
+
+.tabs > *.active {
+  background-color: #6688dd;
+  color: white;
 }
 
 .tabContent {
@@ -25,6 +36,17 @@ circle {
   pointer-events: none;
 }
 
-svg {
-  max-width: 700px;
+.circleInversion svg {
+  cursor: none;
 }
+
+@media (orientation:portrait){
+  .circleInversion svg {
+    width:100vw; height:100vw;
+  }
+}
+@media (orientation:landscape){
+  .circleInversion svg {
+    width:95vh; height:95vh;
+  }
+} 

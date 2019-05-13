@@ -11,7 +11,7 @@ export function Tabs({ children }) {
             const { label } = props;
 
             return (
-              <span key={label} onClick={() => setActive(i)}>
+              <span className={active === i ? 'active' : ''} key={label} onClick={() => setActive(i)}>
                 {label}
               </span>
             );

@@ -40,7 +40,7 @@ export function CircleInversion() {
   };
 
   return (
-    <div>
+    <div className="circleInversion">
       <svg viewBox='0 0 1 1'
         xmlns='http://www.w3.org/2000/svg'
         onMouseMove={onMouseMove}
