@@ -27,13 +27,11 @@ export function CircleInversion() {
     .map((element, i) => elementTypes[element.type](element, i));
 
   return (
-    <div className="circleInversion">
-      <svg viewBox='0 0 1 1'
-        xmlns='http://www.w3.org/2000/svg'
-        onMouseMove={onMouseMove}
-        onWheel={onWheel}>
-        {elements}
-      </svg>
-    </div>
+    <svg viewBox='0 0 1 1'
+      xmlns='http://www.w3.org/2000/svg'
+      onMouseMove={onMouseMove}
+      onWheel={onWheel}>
+      {elements}
+    </svg>
   )
 }

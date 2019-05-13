@@ -31,13 +31,11 @@ export function CircleInversionChain() {
     .map((element, i) => elementTypes[element.type](element, i));
 
   return (
-    <div>
-      <svg viewBox='0 0 1 1'
-        xmlns='http://www.w3.org/2000/svg'
-        onMouseMove={onMouseMove}
-        onWheel={onWheel}>
-        {elements}
-      </svg>
-    </div>
+    <svg viewBox='0 0 1 1'
+      xmlns='http://www.w3.org/2000/svg'
+      onMouseMove={onMouseMove}
+      onWheel={onWheel}>
+      {elements}
+    </svg>
   )
 }

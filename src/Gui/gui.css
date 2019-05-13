@@ -36,17 +36,23 @@ circle {
   pointer-events: none;
 }
 
-.circleInversion svg {
+svg {
   cursor: none;
 }
 
+.pappus {
+  cursor: default;
+}
+
 @media (orientation:portrait){
-  .circleInversion svg {
-    width:100vw; height:100vw;
+  svg {
+    width:100vw;
+    height:100vw;
   }
 }
 @media (orientation:landscape){
-  .circleInversion svg {
-    width:95vh; height:95vh;
+  svg {
+    width:95vh;
+    height:95vh;
   }
 } 
