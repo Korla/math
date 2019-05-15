@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Range } from '../Gui/Range';
 import { Drawer } from '../Gui/Drawer';
 import { Color, interpolateColor } from '../color';
+import { Circle } from './Circle';
 
 export function Pappus() {
   const [r, setR] = useState(70);
@@ -38,17 +39,7 @@ function Circles({ r, number }) {
   return (
     <svg viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg" className="pappus">
       {
-        circles.map(({ x, y, r, fill }, i) =>
-          <circle
-            key={i}
-            vectorEffect="non-scaling-stroke"
-            cx={x}
-            cy={y}
-            r={r}
-            fill={fill}
-            stroke="#000"
-          />
-        )
+        circles.map((circle, i) => <Circle {...circle} key={i} />)
       }
     </svg>
   );
